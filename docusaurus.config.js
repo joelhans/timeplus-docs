@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Timeplus Doc Site',
   tagline: 'the most amazing streaming platform in the world',
-  url: 'https://docs.timeplus.io/',
+  url: 'https://docs.timeplus.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

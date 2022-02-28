@@ -47,8 +47,6 @@ const sidebars = {
         items:['working-with-streams','eventtime','stream-query','history','view','source','destination']
        },
        'ingestion',
-       'transformation',
-       'viz',
        {
         type:'category',
         label:'Query Guide',
@@ -61,7 +59,6 @@ const sidebars = {
        },
        'faq',
        'issues',
-       'changelog',
        'getting-help',
        /*
       ],

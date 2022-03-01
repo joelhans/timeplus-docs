@@ -49,6 +49,11 @@ const config = {
         minHeadingLevel: 2,
         maxHeadingLevel: 6,
       },
+      algolia: {
+        appId:'UCWO77T9MZ',
+        apiKey:'57b8ba245e7467472b18e6cbf5cfd384',
+        indexName:'public_docs',
+      },
       navbar: {
         title: 'Docs',
         hideOnScroll: true,

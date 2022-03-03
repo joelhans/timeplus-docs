@@ -59,8 +59,6 @@ const sidebars = {
         items:['datatypes','query-syntax','functions',]
        },
        'faq',
-       'issues',
-       'getting-help',
        /*
       ],
     }*/

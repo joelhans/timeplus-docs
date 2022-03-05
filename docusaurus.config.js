@@ -6,9 +6,9 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Timeplus Doc Site',
-  tagline: 'the most amazing streaming platform in the world',
-  url: 'https://docs.timeplus.com',
+  title: 'Timeplus',
+  tagline: 'Fast + Powerful Real-time Analytics Made Intuitive',
+  url: 'https://docs.timeplus.io/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -87,11 +87,19 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Company',
             items: [
               {
-                label: 'Use Cases',
-                to: '/docs/usecases',
+                label: 'Join the Beta',
+                href: 'https://timeplus.com',
+              },
+              {
+                label: 'Playground',
+                href: 'https://play.timeplus.com',
+              },
+              {
+                label: 'Blog',
+                href: 'https://timeplus.com/blog',
               },
             ],
           },
@@ -99,8 +107,8 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Slack',
-                href: 'https://timepluscommunity.slack.com',
+                label: 'Join our Slack',
+                href: 'https://join.slack.com/t/timepluscommunity/shared_invite/zt-14nymxet0-9_Hxszyi5fXUL0Ra_lI~lw',
               },
             ],
           },

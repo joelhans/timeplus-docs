@@ -57,8 +57,6 @@ const sidebars = {
         },
         items:['stream-generator',]
        },
-       'transformation',
-       'viz',
        {
         type:'category',
         label:'Query Guide',

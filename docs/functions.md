@@ -12,7 +12,7 @@ For example `to_time('1/2/22')` or `to_time('1/2/22','America/New_York')`
 
 ### to_int
 
-`to_int(string)` Convert it to an integuar. 
+`to_int(string)` Convert it to an integer. 
 
 ### to_float
 
@@ -28,8 +28,8 @@ For example `to_decimal('3.1415926',2)` to get 3.14
 
 Convert any data type to a string, so that you can do other string operations, such as [concat](#concat)
 
-<!-- 
-### cast (tbd)
+
+### cast
 
 Convert an input value to the specified data type. Three syntax variants are supported:
 
@@ -47,11 +47,12 @@ For example
 
 ```sql
 select
-    cast('1', 'Int32'),
-    cast('1' as Int32),
-    cast(3.1415, 'Decimal(3, 2)')
+    cast('1', 'integer'),
+    cast('1' as integer),
+    cast(3.1415, 'decimal(3, 2)'),
+    json_extract_string('{"a":"001"}','a')::integer
 ```
--->
+
 
 
 ## Access Compound Type
@@ -195,7 +196,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### date_trunc
 
-`date_trunc(unit, value[, timezone])`Truncates date and time data to the specified part of date. For example, `date_trunc('month',now())` to get the datetime at the beginning of the current month. Possible unit value are:
+`date_trunc(unit, value[, timezone])`Truncates date and time data to the specified part of date. For example, `date_trunc('month',now())` to get the datetime at the beginning of the current month. Possible unit values are:
 
 * year
 * quarter
@@ -386,7 +387,7 @@ Calculate median of a numeric data sample.
 
 ### table
 
-`table(stream)` turns the unbounded data stream as a bounded table, and query its historical data. For example, you may load the clickstream data from a Kafka topic into the `clicks` stream in Timeplus. By default, if you run `SELECT .. FROM clicks ..` this is a streaming query with unbounded data. The query will keep sending you new results whenever it's available. If you only need to analyze the past data, you can put the stream into the `table` function. Taking a `count` as an example:
+`table(stream)` turns the unbounded data stream as a bounded table, and query its historical data. For example, you may load the clickstream data from a Kafka topic into the `clicks` stream in Timeplus. By default, if you run `SELECT .. FROM clicks ..` This is a streaming query with unbounded data. The query will keep sending you new results whenever it's available. If you only need to analyze the past data, you can put the stream into the `table` function. Taking a `count` as an example:
 
 * running `select count(*) from clicks` will show latest count every 2 seconds and never ends, until the query is cancelled by the user
 * running `select count(*) from table(clicks)` will return immediately with the row count for the historical data for this data stream.
@@ -397,14 +398,20 @@ Learn more about [Non-streaming queries](history).
 
 ### tumble
 
-`tumble(table [,timeCol], windowSize)`
+`tumble(stream [,timeCol], windowSize)`
 
-Create a tumble window view for the table, for example `tumble(iot,5s)` will create windows for every 5 seconds for the streaming table `iot` . The SQL must end with `group by ` with either `window_start` or `window_end` or both.
+Create a tumble window view for the data stream, for example `tumble(iot,5s)` will create windows for every 5 seconds for the data stream `iot` . The SQL must end with `group by ` with either `window_start` or `window_end` or both.
 
 ### hop
 
-`hop(table [,timeCol], step, windowSize)`
-Create a hopping window view for the table, for example `hop(iot,1s,5s)` will create windows for every 5 seconds for the streaming table `iot` and moving the window forwards every second. The SQL must end with `group by ` with either `window_start` or `window_end` or both.
+`hop(stream [,timeCol], step, windowSize)`
+Create a hopping window view for the data stream, for example `hop(iot,1s,5s)` will create windows for every 5 seconds for the data stream `iot` and moving the window forwards every second. The SQL must end with `group by ` with either `window_start` or `window_end` or both.
+
+### session
+
+`session(stream [,timeCol], idle, keyByCol [,otherKeyByCol])`
+
+Create dynamic windows based on the activities in the data stream. You need specify at least one `keyByCol`. If Timeplus keeps getting new events for the specific id within the `idle` time, those events will be included in the same session window. By default, the max length of the session window is 5 times of the idle time. For example, if the car keeps sending data when it's moving and stops sending data when it's parked or waiting for the traffic light, `session(car_live_data, 1m, cid)` will create session windows for each car with 1 minute idle time. Meaning if the car is not moved within one minute, the window will be closed and a new session window will be created for future events. If the car keeps moving for more than 5 minutes, different windows will be created (every 5 minutes), so that as analysts, you can get near real-time results, without waiting too long for the car to be stopped.
 
 ### lag
 
